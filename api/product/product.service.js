@@ -2,7 +2,7 @@ import { ObjectId } from 'mongodb'
 
 import { dbService } from '../../services/db.service.js'
 import { logger } from '../../services/logger.service.js'
-import { utilService } from '../../services/util.service.js'
+import { makeId } from '../../services/util.service.js'
 import { notStrictEqual } from 'assert'
 import { constants } from 'buffer'
 // import { reviewService } from '../review/review.service.js'
@@ -86,7 +86,7 @@ async function update(product) {
 
 async function addProductMsg(productId, msg) {
 	try {
-		msg.id = utilService.makeId()
+		msg.id = makeId()
 
 		const collection = await dbService.getCollection('product')
 		await collection.updateOne({ _id: ObjectId.createFromHexString(productId) }, { $push: { msgs: msg } })
