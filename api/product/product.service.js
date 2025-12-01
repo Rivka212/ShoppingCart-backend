@@ -72,12 +72,14 @@ async function add(product) {
 async function update(product) {
 	try {
 		const productToSave = {
-			// vendor: product.vendor,
+			title: product.title,
 			price: product.price,
 		}
 		const collection = await dbService.getCollection('product')
 		await collection.updateOne({ _id: ObjectId.createFromHexString(product._id) }, { $set: productToSave })
-		return product
+		// return product
+        return { ...productToSave, _id: product._id }
+
 	} catch (err) {
 		logger.error(`cannot update product ${product._id}`, err)
 		throw err
